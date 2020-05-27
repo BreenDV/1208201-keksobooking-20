@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Бреенков](https://up.htmlacademy.ru/javascript/20/user/1208201).
-* Наставник: `Неизвестно`.
+* Наставник: [Андрей Лутогин] (https://htmlacademy.ru/profile/id1096725).
 
 ---
 
