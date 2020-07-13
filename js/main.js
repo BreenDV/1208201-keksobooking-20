@@ -4,8 +4,8 @@
 // количество генерируемых объектов
 var numberOfAds = 8;
 
-// начальное значение для генерации адреса аватара
-var avatarAddress = 0;
+// адрес аватара
+var srcAvatar = 'img/avatars/user';
 
 // минимальное и максимальное значение цены
 var price = [1000, 8000];
@@ -14,7 +14,7 @@ var price = [1000, 8000];
 var guests = [1, 8];
 
 // количество комнат
-var rooms = [1, 8];
+var rooms = [1, 2, 3];
 
 // массив строк "Время заезда"
 var checkin = ['12:00', '13:00', '14;00'];
@@ -43,18 +43,6 @@ var map = document.querySelector('.map');
 
 // переменная с классом .map__pin
 var mapPin = document.querySelector('.map__pin');
-
-// Функция генерации адреса аватара начиная от 01
-var getAuthorAvatar = function () {
-  var src = 'img/avatars/user';
-  avatarAddress++;
-  if (avatarAddress <= numberOfAds) {
-    src = 'img/avatars/user' + '0' + avatarAddress + '.png';
-  } else {
-    src = 'img/avatars/user' + avatarAddress + '.png';
-  }
-  return src;
-};
 
 // функция генерации случайного значения из диапазона
 var getRandomNumber = function (min, max) {
@@ -85,7 +73,7 @@ var shuffle = function (arr) {
 var getRandomArray = function (arr) {
   var mixedArray = shuffle(arr);
   var randomArray = [];
-  randomArray.length = getRandomNumber(1, 6);
+  randomArray.length = getRandomNumber(1, arr.length);
   for (var i = 0; i < randomArray.length; i++) {
     randomArray[i] = mixedArray[i];
   }
@@ -93,45 +81,40 @@ var getRandomArray = function (arr) {
   return randomArray;
 };
 // Функция генерации объекта объявления
-var adGeneration = function () {
-  return {
-    'author': {
-      'avatar': getAuthorAvatar()
-    },
-    'offer': {
-      'title': 'title' + avatarAddress,
-      'address': '600, 350',
-      'price': getRandomNumber(price[0], price[1]),
-      'rooms': getRandomNumber(guests[0], guests[1]),
-      'guests': getRandomNumber(rooms[0], rooms[1]),
-      'checkin': arrayRandElement(checkin),
-      'checkout': arrayRandElement(checkout),
-      'features': getRandomArray(features),
-      'description': 'description' + avatarAddress,
-      'photos': getRandomArray(photos)
-    },
-    'location': {
-      'x': getRandomNumber(axisX[0], axisX[1]),
-      'y': getRandomNumber(axisY[0], axisY[1])
-    }
-  };
-};
-
-// Функция генерации массива из 8 рандомных объектов
-var generationAdArray = function () {
-  var arrayObjects = [];
-  for (var i = 0; i < numberOfAds; i++) {
-    var ad = adGeneration();
-    arrayObjects.push(ad);
+var adGeneration = function (number) {
+  var arrayObject = [];
+  for (var i = 1; i <= number; i++) {
+    var authorAdd = {
+      'author': {
+        'avatar': srcAvatar + '0' + i
+      },
+      'offer': {
+        'title': 'title' + i,
+        'address': '600, 350',
+        'price': getRandomNumber(price[0], price[1]),
+        'rooms': arrayRandElement(rooms),
+        'guests': getRandomNumber(rooms[0], rooms[1]),
+        'checkin': arrayRandElement(checkin),
+        'checkout': arrayRandElement(checkout),
+        'features': getRandomArray(features),
+        'description': 'description' + i,
+        'photos': getRandomArray(photos)
+      },
+      'location': {
+        'x': getRandomNumber(axisX[0], axisX[1]),
+        'y': getRandomNumber(axisY[0], axisY[1])
+      }
+    };
+    arrayObject.push(authorAdd);
   }
-  return arrayObjects;
+  return arrayObject;
 };
 
 // убираем класс
 map.classList.remove('map--faded');
 
 // записываем созданный массив объявлений в переменную
-var arrayAds = generationAdArray();
+var arrayAds = adGeneration(numberOfAds);
 
 // функция генерации объявления по шаблону на основе созданного массива объявлений
 var generateMapPin = function (obj) {
