@@ -136,3 +136,6 @@ var createFragment = function (arr) {
 };
 
 createFragment(arrayAds);
+
+
+// тревис не пускает
