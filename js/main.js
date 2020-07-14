@@ -93,10 +93,10 @@ var adGeneration = function (number) {
       },
       'offer': {
         'title': 'title' + i,
-        'address': '' + getRandomNumber(600, 608) + ', ' + '' + getRandomNumber(350, 358),
+        'address': getRandomNumber(600, 608) + ', ' + getRandomNumber(350, 358),
         'price': getRandomNumber(price.minPrice, price.maxPrice),
         'rooms': arrayRandElement(rooms),
-        'guests': getRandomNumber(guests[0], rooms[1]),
+        'guests': getRandomNumber(guests[0], guests[1]),
         'checkin': arrayRandElement(checkin),
         'checkout': arrayRandElement(checkout),
         'features': getRandomArray(features),
