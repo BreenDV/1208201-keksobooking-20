@@ -8,7 +8,10 @@ var numberOfAds = 8;
 var srcAvatar = 'img/avatars/user';
 
 // минимальное и максимальное значение цены
-var price = [1000, 8000];
+var price = {
+  minPrice: 1000,
+  maxPrice: 8000
+};
 
 // количество гостей
 var guests = [1, 8];
@@ -90,10 +93,10 @@ var adGeneration = function (number) {
       },
       'offer': {
         'title': 'title' + i,
-        'address': '600, 350',
-        'price': getRandomNumber(price[0], price[1]),
+        'address': '' + getRandomNumber(600, 608) + ', ' + '' + getRandomNumber(350, 358),
+        'price': getRandomNumber(price.minPrice, price.maxPrice),
         'rooms': arrayRandElement(rooms),
-        'guests': getRandomNumber(rooms[0], rooms[1]),
+        'guests': getRandomNumber(guests[0], rooms[1]),
         'checkin': arrayRandElement(checkin),
         'checkout': arrayRandElement(checkout),
         'features': getRandomArray(features),
