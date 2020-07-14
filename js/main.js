@@ -129,7 +129,7 @@ var generateMapPin = function (obj) {
 var mapPins = document.querySelector('.map__pins');
 
 var createFragment = function (arr) {
-  for (var i = 0; i < numberOfAds; i++) {
+  for (var i = 1; i <= numberOfAds; i++) {
     var fragments = document.createDocumentFragment(generateMapPin(arr[i]));
   }
   return mapPins.appendChild(fragments);
