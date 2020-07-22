@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 'use strict';
 
 
@@ -46,6 +47,70 @@ var map = document.querySelector('.map');
 
 // переменная с классом .map__pin
 var mapPin = document.querySelector('.map__pin');
+
+// переменная формы
+var formAd = document.querySelector('.ad-form');
+
+// переменная котора содержит коллекцию полей fieldset
+var formFields = formAd.querySelectorAll('.ad-form__elemen');
+
+// метка активации страницы
+var mapPinMain = document.querySelector('.map__pin--main');
+
+var addressAd = document.querySelector('#address');
+
+var roomNumber = document.querySelector('#room_number');
+
+var capacity = document.querySelector('#capacity');
+
+
+addressAd.value = Math.round((mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2)) + ', ' + Math.round((mapPinMain.offsetTop + mapPinMain.offsetHeight / 2));
+
+// добавляем полям атрибут
+for (var i = 0; i < formFields.length; i++) {
+  formFields[i].setAttribute('disabled', 'disabled');
+}
+
+var activeState = function () {
+  map.classList.remove('map--faded');
+  formAd.classList.remove('ad-form--disabled');
+  for (var i = 0; i < formFields.length; i++) {
+    formFields[i].removeAttribute('disabled', 'disabled');
+  }
+  addressAd.value = Math.round(mapPinMain.offsetLeft + mapPinMain.offsetWidth) + ', ' + Math.round(mapPinMain.offsetTop + mapPinMain.offsetHeight);
+};
+
+// активное состояние по левой кнопке мыши
+mapPinMain.addEventListener('mouseup', function (evt) {
+  if (evt.which === 1) {
+    activeState();
+  }
+});
+
+// активное состояние кнопкой Enter
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    activeState();
+  }
+});
+
+var syncRoomsAndGuests = function () {
+  if (roomNumber.value === '1' && capacity.value !== '1') {
+    capacity.setCustomValidity('Для одной комнаты только один гость');
+  } else if (roomNumber.value === '2' && capacity.value === '3' || capacity.value === '0') {
+    capacity.setCustomValidity('Для двух комнат только 1 или 2 гостя');
+  } else if (roomNumber.value === '3' && capacity.value === '0') {
+    capacity.setCustomValidity('Для трех комнат 1,2 или 3 гостя');
+  } else if (roomNumber.value === '100' && capacity.value !== '0') {
+    capacity.setCustomValidity('Не для гостей');
+  } else {
+    capacity.setCustomValidity('');
+  }
+};
+
+formAd.addEventListener('submit', function () {
+  syncRoomsAndGuests();
+});
 
 // функция генерации случайного значения из диапазона
 var getRandomNumber = function (min, max) {
@@ -113,8 +178,6 @@ var adGeneration = function (number) {
   return arrayObject;
 };
 
-// убираем класс
-map.classList.remove('map--faded');
 
 // записываем созданный массив объявлений в переменную
 var arrayAds = adGeneration(numberOfAds);
@@ -141,4 +204,3 @@ var createFragment = function (arr) {
 createFragment(arrayAds);
 
 
-// тревис не пускает
